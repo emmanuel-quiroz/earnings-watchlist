@@ -8,11 +8,14 @@ import requests
 import pandas as pd
 import sys 
 
-#function to retrieve tickers that have earnings on a certain date 
-#@param date string in ISO 8601 format 
-#@returns dictionary with ticker as keys and earning call time as values
+def scrapeYahoo(desired_date):
 
-def getTickerInfo(desired_date):
+    """ function scrapeYahoo visits finance yahoo and scrapes earnings data for a given date 
+
+        @param desired_date         date string in ISO 8601 format
+        @returns data               dictionary with ticker symbols as key and  reporting time  as value  
+    """
+
     #set options for webdriver
     options = webdriver.ChromeOptions()
     options.add_argument('--no-sandbox')
@@ -22,11 +25,8 @@ def getTickerInfo(desired_date):
     #target url to scrape based on desired date 
     url = "https://finance.yahoo.com/calendar/earnings?day={}".format(desired_date)
 
-    #webdriver instantiation 
+    #instantiate driver and retrieve page source 
     web_driver = webdriver.Chrome('chromedriver', options=options)
-
-    #visit yahoo earnings calendar and get page source 
-    web_driver.implicitly_wait(6)
     web_driver.get(url)
     html = web_driver.page_source
 
